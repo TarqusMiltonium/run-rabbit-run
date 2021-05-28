@@ -3,15 +3,13 @@ on: push
 
 jobs:
   # Label of the container job
-  container-job:
+  build-with-maven:
     # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
     
     steps:
-      - name: Prepare SdkMan for CI use
-        run: mkdir -p ~/.sdkman/etc && echo 'sdkman_auto_answer=true|false' > ~/.sdkman/etc/config
-
-      - uses: renatoathaydes/setup-java-sdkman@v2.1.1
+      - uses: renatoathaydes/setup-java-sdkman@v2.1.0
+        id:   setup-java8
         with:
           java-version: '8.292.10.1-amzn' # The SDKMAN! JDK version to use.
           architecture: x64 # (x64 or x86) - defaults to x64
@@ -20,7 +18,7 @@ jobs:
 
       - run: mvn --version 2>&1 ; exit 0
 
-      - run: sdk install maven 3.6.3
+      - run: "${{ steps.setup-java8.outputs.sdkCommand }}" install maven 3.6.3
 
       - run: mvn --version 2>&1 ; exit 0
 
