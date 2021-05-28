@@ -8,24 +8,22 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: sdkman/sdkman-action@master
-        id: sdkman
-        with:
-          candidate: java
-          version: 15.0.0-amzn
+      - name: Prepare SdkMan for CI use
+        run: mkdir -p ~/.sdkman/etc && echo 'sdkman_auto_answer=true|false' > ~/.sdkman/etc/config
 
-      - uses: actions/setup-java@v1
-          id: setup-java
-          with:
-            java-version: 15.0.0
-            jdkFile: ${{ steps.sdkman.outputs.file }}
+      - uses: renatoathaydes/setup-java-sdkman@v2.x
+        with:
+          java-version: '8.292.10.1-amzn' # The SDKMAN! JDK version to use.
+          architecture: x64 # (x64 or x86) - defaults to x64
 
       - run: java --version
 
-      - uses: sdkman/sdkman-action@master
-        id: sdkman
-        with:
-          candidate: maven
-          version: 3.6.3
+      - run: mvn --version 2>&1 ; exit 0
 
-      - run: mvn --version
+      - run: sdk install maven 3.6.3
+
+      - run: mvn --version 2>&1 ; exit 0
+
+      - run: sdk install maven 3.8.1
+
+      - run: mvn --version 2>&1 ; exit 0
