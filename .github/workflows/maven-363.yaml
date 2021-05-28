@@ -1,0 +1,31 @@
+name: Specific Maven version example
+on: push
+
+jobs:
+  # Label of the container job
+  container-job:
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: sdkman/sdkman-action@master
+        id: sdkman
+        with:
+          candidate: java
+          version: 15.0.0-amzn
+
+      - uses: actions/setup-java@v1
+          id: setup-java
+          with:
+            java-version: 15.0.0
+            jdkFile: ${{ steps.sdkman.outputs.file }}
+
+      - run: java --version
+
+      - uses: sdkman/sdkman-action@master
+        id: sdkman
+        with:
+          candidate: maven
+          version: 3.6.3
+
+      - run: mvn --version
