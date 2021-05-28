@@ -22,7 +22,7 @@ jobs:
 
       - run: mvn --version 2>&1 || true
 
-      - run: "${{ steps.setup-java8.outputs.sdkCommand }} use maven 3.6.3 && mvn --version"
+      - run: "${{ steps.setup-java8.outputs.sdkCommand }} use maven 3.6.3 && which mvn"
 
       - run: mvn --version 2>&1 || true
 
