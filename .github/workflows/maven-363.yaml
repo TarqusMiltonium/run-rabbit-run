@@ -17,8 +17,11 @@ jobs:
       - run: java --version
 
       - run: mvn --version 2>&1 || true
+      - run: java --version
 
+      - run: java --version
       - run: "${{ steps.setup-java8.outputs.sdkCommand }}" install maven 3.6.3
+      - run: java --version
 
       - run: mvn --version 2>&1 || true
 
