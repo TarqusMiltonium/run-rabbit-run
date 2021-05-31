@@ -4,11 +4,12 @@ on: push
 jobs:
   # Label of the container job
   build-with-maven:
+    name: Build stuff with an older Maven
     # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
     
     steps:
-      - uses: renatoathaydes/setup-java-sdkman@v2.1.0
+      - uses: renatoathaydes/setup-java-sdkman@v2.1.1
         id:   setup-java8
         with:
           java-version: '8.292.10.1-amzn' # The SDKMAN! JDK version to use.
