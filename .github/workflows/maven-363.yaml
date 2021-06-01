@@ -8,8 +8,24 @@ jobs:
     # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
     
+    permissions:
+      contents: read
+      packages: write
+
     steps:
-      - uses: renatoathaydes/setup-java-sdkman@v2.1.1
+      - uses: actions/checkout@v2
+
+      # This should cache maven modules once per user (Actor) per Branch (Ref), assuming pom.xml files are identical
+      - name: Cache Maven modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-maven-modules
+        with:
+          # Maven cache files are stored in `~/.m2` on Linux
+          path: ~/.m2
+          key: ${{ runner.os }}-build-branch${{ env.GITHUB_REF }}-${{ env.cache-name }}-actor${{ env.GITHUB_ACTOR }}-${{ hashFiles('**/pom.xml') }}
+
+      - uses: renatoathaydes/setup-java-sdkman@v2.1.0
         id:   setup-java8
         with:
           java-version: '8.292.10.1-amzn' # The SDKMAN! JDK version to use.
