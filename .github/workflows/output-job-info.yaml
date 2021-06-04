@@ -22,9 +22,8 @@ jobs:
 
       - run: echo "${HOME}"
       - run: echo "${GITHUB_WORKSPACE}"
-      - run: python --version
-      - run: pwsh --version
-      - run: cat ~/.m2/settings.xml 2>/dev/null || true
+      - run: echo "${GITHUB_ACTOR}"
+      - run: echo "${GITHUB_TOKEN}"
+      - run: cat "${GITHUB_WORKSPACE}/.github/actions_resources/maven_settings.xml"
+      - run: diff "${GITHUB_WORKSPACE}/.github/actions_resources/maven_settings.xml" "${HOME}/.m2/settings.xml"
       - run: cat "${HOME}/.m2/settings.xml" 2>/dev/null || true
-      - run: find / -name settings.xml 2>/dev/null || true
-
