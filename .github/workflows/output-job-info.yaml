@@ -1,0 +1,21 @@
+name: Specific Maven version example
+on: push
+
+jobs:
+  job-number-two:
+    name: Output some GitHubActions Variables
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: echo "${HOME}"
+      - run: echo "${GITHUB_WORKSPACE}"
+      - run: python --version
+      - run: pwsh --version
+      - run: find / -name settings.xml
