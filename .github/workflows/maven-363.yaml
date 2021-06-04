@@ -50,3 +50,21 @@ jobs:
       - run: "${{ steps.setup-java8.outputs.sdkCommand }} use maven 3.8.1"
 
       - run: mvn --version 2>&1 || true
+
+
+  job-number-two:
+    name: Build stuff with an older Maven
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: cat ~/.m2/settings.xml
+      - run: echo "${GITHUB_WORKSPACE}"
+      - run: python --version
+      - run: pwsh --version
