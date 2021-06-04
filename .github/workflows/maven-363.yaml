@@ -53,7 +53,7 @@ jobs:
 
 
   job-number-two:
-    name: Build stuff with an older Maven
+    name: Output some GitHubActions Variables
     # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
     
@@ -64,7 +64,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run: cat ~/.m2/settings.xml
+      - run: echo "${HOME}"
+      - run: echo "${GITHUB_HOME}"
       - run: echo "${GITHUB_WORKSPACE}"
       - run: python --version
       - run: pwsh --version
