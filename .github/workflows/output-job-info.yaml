@@ -55,3 +55,8 @@ jobs:
         run: test -f "${settings_file}" || echo "File not found?"
         env:
           settings_file: "${HOME}/.m2/settings.xml"
+
+      - name: The env-var test Step 5
+        run: cat "${settings_file}"
+        env:
+          settings_file: "${HOME}/.m2/settings.xml"
