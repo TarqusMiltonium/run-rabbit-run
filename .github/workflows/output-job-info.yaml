@@ -24,44 +24,9 @@ jobs:
       - run: echo "${GITHUB_WORKSPACE}"
       - run: echo "${GITHUB_ACTOR}"
       - run: echo "${GITHUB_TOKEN}"
-      - run: cat "${GITHUB_WORKSPACE}/.github/resources/maven_settings.xml"
-      - run: file "${GITHUB_WORKSPACE}/.github/resources/maven_settings.xml" || true
-      - run: file "${HOME}/.m2/settings.xml" || true
-      - run: diff "${GITHUB_WORKSPACE}/.github/resources/maven_settings.xml" "${HOME}/.m2/settings.xml" || true
-      - run: cat "${HOME}/.m2/settings.xml" 2>/dev/null || true
-      - run: (test -f "${HOME}/.m2/settings.xml" && cat "${HOME}/.m2/settings.xml") || true
-      - run: (test -f "${HOME}/.m2/settings2.xml" && cat "${HOME}/.m2/settings2.xml") || echo "File does not exist, safely skipping"
 
-      - name: The if test Step
-        run: (cat "${HOME}/.m2/settings.xml") || echo "if test is weird, blerch"
-        if: hashFiles( 'settings.xml' ) != ''
+      - name: Copy Maven settings if they exist
+        run: (cp "${GITHUB_WORKSPACE}/.github/resources/maven_settings.xml" "${HOME}/.m2/settings.xml") || true
 
-      - name: The env-var test Step 1
-        run: (set | grep "${SETTINGS_FILE_PATH}") || echo "grep no findy thingy, blerch"
-        env:
-          SETTINGS_FILE_PATH: ${HOME}/.m2/settings.xml
-
-      - name: The env-var test Step 2
-        run: (test -f "${SETTINGS_FILE_PATH}" && cat "${SETTINGS_FILE_PATH}") || echo "File does not exist, blerch"
-        env:
-          SETTINGS_FILE_PATH: ${HOME}/.m2/settings.xml
-
-      - name: The env-var test Step 2a
-        run: (test -f "${SETTINGS_FILE_PATH//\'/}" && cat "${SETTINGS_FILE_PATH//\'/}") || echo "File does not exist, blerch"
-        env:
-          SETTINGS_FILE_PATH: ${HOME}/.m2/settings.xml
-
-      - name: The env-var test Step 3
-        run: echo "${SETTINGS_FILE_PATH}"
-        env:
-          SETTINGS_FILE_PATH: ${HOME}/.m2/settings.xml
-
-      - name: The env-var test Step 4
-        run: test -f "${SETTINGS_FILE_PATH//\'/}" || echo "File not found?"
-        env:
-          SETTINGS_FILE_PATH: ${HOME}/.m2/settings.xml
-
-      - name: The env-var test Step 5
-        run: cat "${SETTINGS_FILE_PATH}"
-        env:
-          SETTINGS_FILE_PATH: ${HOME}/.m2/settings.xml
+      - name: Copy Maven settings if they don't exist
+        run: (cp "${GITHUB_WORKSPACE}/.github/resources/maven_settings2.xml" "${HOME}/.m2/settings.xml") || true
