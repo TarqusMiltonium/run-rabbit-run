@@ -34,29 +34,29 @@ jobs:
 
       - name: The if test Step
         run: (cat "${HOME}/.m2/settings.xml") || echo "if test is weird, blerch"
-        if: hashFiles('${HOME}/.m2/settings.xml') != ''
+        if: hashFiles( '.m2/settings.xml' ) != ''
 
       - name: The env-var test Step 1
         run: (set | grep "${settings_file}") || echo "grep no findy thingy, blerch"
         env:
-          settings_file: "${HOME}/.m2/settings.xml"
+          settings_file: ${HOME}/.m2/settings.xml
 
       - name: The env-var test Step 2
         run: (test -f "${settings_file}" && cat "${settings_file}") || echo "File does not exist, blerch"
         env:
-          settings_file: "${HOME}/.m2/settings.xml"
+          settings_file: ${HOME}/.m2/settings.xml
 
       - name: The env-var test Step 3
         run: echo "${settings_file}"
         env:
-          settings_file: "${HOME}/.m2/settings.xml"
+          settings_file: ${HOME}/.m2/settings.xml
 
       - name: The env-var test Step 4
         run: test -f "${settings_file}" || echo "File not found?"
         env:
-          settings_file: "${HOME}/.m2/settings.xml"
+          settings_file: ${HOME}/.m2/settings.xml
 
       - name: The env-var test Step 5
         run: cat "${settings_file}"
         env:
-          settings_file: "${HOME}/.m2/settings.xml"
+          settings_file: ${HOME}/.m2/settings.xml
