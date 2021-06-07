@@ -34,7 +34,7 @@ jobs:
 
       - name: The if test Step
         run: (cat "${HOME}/.m2/settings.xml") || echo "if test is weird, blerch"
-        if: hashFiles( '.m2/settings.xml' ) != ''
+        if: hashFiles( 'settings.xml' ) != ''
 
       - name: The env-var test Step 1
         run: (set | grep "${settings_file}") || echo "grep no findy thingy, blerch"
@@ -53,6 +53,11 @@ jobs:
 
       - name: The env-var test Step 4
         run: test -f "${settings_file}" || echo "File not found?"
+        env:
+          settings_file: ${HOME}/.m2/settings.xml
+
+      - name: The env-var test Step 4a
+        run: test -f "$(echo ${settings_file} | sed 's/\'/\"/g')" || echo "File not found?"
         env:
           settings_file: ${HOME}/.m2/settings.xml
 
