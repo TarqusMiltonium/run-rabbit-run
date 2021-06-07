@@ -37,31 +37,31 @@ jobs:
         if: hashFiles( 'settings.xml' ) != ''
 
       - name: The env-var test Step 1
-        run: (set | grep "${settings_file}") || echo "grep no findy thingy, blerch"
+        run: (set | grep "${SETTINGS_FILE_PATH}") || echo "grep no findy thingy, blerch"
         env:
-          settings_file: ${HOME}/.m2/settings.xml
+          SETTINGS_FILE_PATH: ${HOME}/.m2/settings.xml
 
       - name: The env-var test Step 2
-        run: (test -f "${settings_file}" && cat "${settings_file}") || echo "File does not exist, blerch"
+        run: (test -f "${SETTINGS_FILE_PATH}" && cat "${SETTINGS_FILE_PATH}") || echo "File does not exist, blerch"
         env:
-          settings_file: ${HOME}/.m2/settings.xml
+          SETTINGS_FILE_PATH: ${HOME}/.m2/settings.xml
+
+      - name: The env-var test Step 2a
+        run: (test -f "${SETTINGS_FILE_PATH//\'/}" && cat "${SETTINGS_FILE_PATH//\'/}") || echo "File does not exist, blerch"
+        env:
+          SETTINGS_FILE_PATH: ${HOME}/.m2/settings.xml
 
       - name: The env-var test Step 3
-        run: echo "${settings_file}"
+        run: echo "${SETTINGS_FILE_PATH}"
         env:
-          settings_file: ${HOME}/.m2/settings.xml
+          SETTINGS_FILE_PATH: ${HOME}/.m2/settings.xml
 
       - name: The env-var test Step 4
-        run: test -f "${settings_file}" || echo "File not found?"
+        run: test -f "${SETTINGS_FILE_PATH//\'/}" || echo "File not found?"
         env:
-          settings_file: ${HOME}/.m2/settings.xml
-
-      - name: The env-var test Step 4a
-        run: test -f "$(echo ${settings_file} | sed 's/\'/\"/g')" || echo "File not found?"
-        env:
-          settings_file: ${HOME}/.m2/settings.xml
+          SETTINGS_FILE_PATH: ${HOME}/.m2/settings.xml
 
       - name: The env-var test Step 5
-        run: cat "${settings_file}"
+        run: cat "${SETTINGS_FILE_PATH}"
         env:
-          settings_file: ${HOME}/.m2/settings.xml
+          SETTINGS_FILE_PATH: ${HOME}/.m2/settings.xml
