@@ -1,0 +1,32 @@
+name: GitHub Actions Environment Vars, etc
+on: push
+
+jobs:
+  job-number-two:
+    name: Output some GitHubActions Variables
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+
+      - run: echo "${HOME}"
+      - run: echo "${GITHUB_WORKSPACE}"
+      - run: echo "${GITHUB_ACTOR}"
+      - run: echo "${GITHUB_TOKEN}"
+
+      - name: Copy Maven settings if they exist
+        run: (cp "${GITHUB_WORKSPACE}/.github/resources/maven_settings.xml" "${HOME}/.m2/settings.xml") || true
+
+      - name: Copy Maven settings if they don't exist
+        run: (cp "${GITHUB_WORKSPACE}/.github/resources/maven_settings2.xml" "${HOME}/.m2/settings.xml") || true
