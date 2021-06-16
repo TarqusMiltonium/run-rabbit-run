@@ -1,0 +1,27 @@
+name: GitHub Actions on Created Release
+on:
+  release:
+    types: [created]
+
+jobs:
+  job-number-Published:
+    name: Action on Created Release
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+
+      - run: echo "${HOME}"
+      - run: echo "${GITHUB_WORKSPACE}"
+      - run: echo "${GITHUB_ACTOR}"
