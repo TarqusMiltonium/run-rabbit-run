@@ -1,11 +1,11 @@
 name: GitHub Actions on Released Release
 on:
   release:
-    types: [released]
+    types: [prereleased]
 
 jobs:
-  job-number-Published:
-    name: Action on Released Release
+  job-number-Released:
+    name: Action on Pre-Released Release
     # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
 
