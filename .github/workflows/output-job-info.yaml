@@ -1,5 +1,9 @@
 name: GitHub Actions Environment Vars, etc
-on: push
+on:
+  push:
+  release:
+    types: [published]
+
 
 jobs:
   job-number-two:
