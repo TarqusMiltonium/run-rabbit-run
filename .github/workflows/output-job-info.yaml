@@ -35,9 +35,13 @@ jobs:
       - run: |
           echo "Profile1: ${MAVEN_PROFILE}"
 
+      - name: Set a Release Profile EnvVar for Maven (Push Only)
+        run: echo "MAVEN_PROFILE=-P release" >> $GITHUB_ENV
+        if:  github.event_name == 'push'
+
       - name: Set a Release Profile EnvVar for Maven (Tag not Release)
         run: echo "MAVEN_PROFILE=-P release" >> $GITHUB_ENV
-        if:  startsWith(github.ref, 'refs/tags/v') && startsWith(github.event_name, 'push')
+        if:  startsWith(github.ref, 'refs/tags/v') && github.event_name == 'push'
 
       - name: Set a Release Profile EnvVar for Maven (Release not Tag)
         run: echo "MAVEN_PROFILE=-P release" >> $GITHUB_ENV
