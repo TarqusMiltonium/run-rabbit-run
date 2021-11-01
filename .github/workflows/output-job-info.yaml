@@ -52,9 +52,9 @@ jobs:
         run: echo "MAVEN_PROFILE=-P release" >> $GITHUB_ENV
         if:  startsWith(github.ref, 'refs/tags/v') && startsWith(github.event_name, 'release')
 
-      # - name: Set a NotRelease Profile EnvVar for Maven
-      #   run: echo "MAVEN_PROFILE=-P NotRelease" >> $GITHUB_ENV
-      #   if:  ${{ ! startsWith(github.ref, 'refs/tags/v') }}
+      - name: Set a NotRelease Profile EnvVar for Maven
+        run: echo "MAVEN_PROFILE=-P NotRelease" >> $GITHUB_ENV
+        if:  ${{ ! startsWith(github.ref, 'refs/tags/v') }}
 
       - run: |
           echo "Resulting Profile: ${MAVEN_PROFILE}"
