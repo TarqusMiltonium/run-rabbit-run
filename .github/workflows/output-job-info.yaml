@@ -77,27 +77,13 @@ jobs:
           echo "IS_DEFAULT: ${IS_DEFAULT}"
 
       - name: Is this just a normal non-release push? 1
-        if:  contains( ${{ env.MAVEN_PROFILE }}, 'push')
+        if:  contains( env.MAVEN_PROFILE, 'push')
         run: |
-          echo "Resulting Profile: ${MAVEN_PROFILE}"
+          echo "Resulting Profile: ${{ env.MAVEN_PROFILE }}"
 
       - name: Is this just a normal non-release push? 2
-        if:  always() && contains( ${{ env.MAVEN_PROFILE }}, 'push')
-        run: |
-          echo "Resulting Profile: ${MAVEN_PROFILE}"
-
-      - name: Is this just a normal non-release push? 3
-        if:  contains( ${{ env.MAVEN2_PROFILE }}, 'push')
-        run: |
-          echo "Resulting Profile: ${MAVEN_PROFILE}"
-
-      - name: Is this just a normal non-release push? 4
-        if:  env.MAVEN2_PROFILE != "-P push"
-        run: |
-          echo "Resulting Profile: ${MAVEN_PROFILE}"
-
-      - name: Is this just a normal non-release push? 5
-        if:  env.MAVEN2_PROFILE == "-P push"
+        if:  |
+          ! contains( env.MAVEN_PROFILE, 'push')
         run: |
           echo "Resulting Profile: ${MAVEN_PROFILE}"
 
