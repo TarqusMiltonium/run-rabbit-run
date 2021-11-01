@@ -77,13 +77,13 @@ jobs:
 
       - name: Is this a push to default branch? 2a
         if:  |
-          startswith(env.IS_DEFAULT_BRANCH, "true")
+          startswith(env.IS_DEFAULT_BRANCH, 'true')
         run: |
           echo "This is a push to the default branch: ${{ github.ref }}"
 
       - name: Is this a push to default branch? 2b
         if:  |
-          startswith(env.IS_DEFAULT_BRANCH, "false")
+          startswith(env.IS_DEFAULT_BRANCH, 'false')
         run: |
           echo "This is a push to the default branch: ${{ github.ref }}"
 
@@ -105,3 +105,8 @@ jobs:
         run: |
           echo "Resulting Profile: ${MAVEN_PROFILE}"
 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: no-files
+          path: |
+            path-not-exist/
