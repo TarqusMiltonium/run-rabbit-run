@@ -64,13 +64,32 @@ jobs:
         run: |
           echo "This is a push to the default branch: ${{ github.ref }}"
 
+      - name: Is this a push to default branch? 2
+        if:  github.ref == format('refs/heads/{0}', env.default_branch)
+        run: |
+          echo "This is a push to the default branch: ${{ github.ref }}"
+
+      - name: Is this a push to default branch? 3
+        env:
+          IS_DEFAULT: github.ref == format('refs/heads/{0}', env.default_branch)
+          IS_DEFAULT2: ${{ github.ref == format('refs/heads/{0}', env.default_branch) }}
+        run: |
+          echo "Results:"
+          echo "IS_DEFAULT: ${IS_DEFAULT}"
+          echo "IS_DEFAULT2: ${IS_DEFAULT2}"
+
       - name: Is this just a normal non-release push? 1
         if:  contains( ${{ env.MAVEN_PROFILE }}, 'push')
         run: |
           echo "Resulting Profile: ${MAVEN_PROFILE}"
 
       - name: Is this just a normal non-release push? 2
-        if:  [[ ${{ env.MAVEN_PROFILE }} ~= 'push']]
+        if:  contains(env.MAVEN_PROFILE, 'push')
+        run: |
+          echo "Resulting Profile: ${MAVEN_PROFILE}"
+
+      - name: Is this just a normal non-release push? 3
+        if:  ${{ env.MAVEN_PROFILE ~= 'push' }}
         run: |
           echo "Resulting Profile: ${MAVEN_PROFILE}"
 
