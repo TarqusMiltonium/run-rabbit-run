@@ -31,6 +31,7 @@ jobs:
       - name: Output Job info!
         env:
           GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        shell: bash
         run: |
           echo "Home: ${HOME}"
           echo "Workspace: ${GITHUB_WORKSPACE}"
@@ -106,7 +107,7 @@ jobs:
           echo "Resulting Profile: ${MAVEN_PROFILE}"
 
       - uses: actions/upload-artifact@v2
-
+        name: Upload Non-Existent Files
         with:
           name: no-files
           path: |
