@@ -91,3 +91,13 @@ jobs:
         run: |
           echo "Resulting Profile: ${MAVEN_PROFILE}"
 
+      - name: Is this just a normal non-release push? 4
+        if:  env.MAVEN2_PROFILE != "-P push"
+        run: |
+          echo "Resulting Profile: ${MAVEN_PROFILE}"
+
+      - name: Is this just a normal non-release push? 5
+        if:  env.MAVEN2_PROFILE == "-P push"
+        run: |
+          echo "Resulting Profile: ${MAVEN_PROFILE}"
+
