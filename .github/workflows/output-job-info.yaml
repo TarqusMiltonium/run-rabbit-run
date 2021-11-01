@@ -18,29 +18,34 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up JDK 8
+      - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
-          java-version: '8'
+          java-version: '11'
           distribution: 'adopt'
 
-      - run: |
+      - name: Output Job info!
+        env:
+          GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
           echo 'Home: ${HOME}'
           echo 'Workspace: ${GITHUB_WORKSPACE}'
           echo 'Actor: ${GITHUB_ACTOR}'
           echo 'Token: ${GITHUB_TOKEN}'
           echo 'Event Name: ${GITHUB_EVENTNAME}'
           echo "Even2 Name: ${{ github.event_name }}"
-
-      - run: |
-          echo "Profile1: ${MAVEN_PROFILE}"
+          echo 'GITHUB_DEFAULT_BRANCH: ${GITHUB_DEFAULT_BRANCH}'
+          echo 'GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}'
+          echo 'Repo Object: ${{ github.event.repository }}'
+          echo 'Event Object: ${{ github.event }}'
+          echo 'Event Name: ${{ github.event_name }}'
 
       - name: Set a Release Profile EnvVar for Maven (Push Only)
-        run: echo "MAVEN_PROFILE=-P release" >> $GITHUB_ENV
+        run: echo "MAVEN_PROFILE=-P push" >> $GITHUB_ENV
         if:  github.event_name == 'push'
 
       - name: Set a Release Profile EnvVar for Maven (Tag not Release)
-        run: echo "MAVEN_PROFILE=-P release" >> $GITHUB_ENV
+        run: echo "MAVEN_PROFILE=-P version" >> $GITHUB_ENV
         if:  startsWith(github.ref, 'refs/tags/v') && github.event_name == 'push'
 
       - name: Set a Release Profile EnvVar for Maven (Release not Tag)
@@ -52,10 +57,9 @@ jobs:
         if:  ${{ ! startsWith(github.ref, 'refs/tags/v') }}
 
       - run: |
-          echo "Profile2: ${MAVEN_PROFILE}"
+          echo "Resulting Profile: ${MAVEN_PROFILE}"
 
-      - name: Copy Maven settings if they exist
-        run: (cp "${GITHUB_WORKSPACE}/.github/resources/maven_settings.xml" "${HOME}/.m2/settings.xml") || true
-
-      - name: Copy Maven settings if they don't exist
-        run: (cp "${GITHUB_WORKSPACE}/.github/resources/maven_settings2.xml" "${HOME}/.m2/settings.xml") || true
+      - name: Is this just a normal non-release push?
+        if:  contains(${{ env.MAVEN_PROFILE }}, 'push')
+        run: |
+          echo "Resulting Profile: ${MAVEN_PROFILE}"
