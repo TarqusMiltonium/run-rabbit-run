@@ -119,3 +119,17 @@ jobs:
           path: |
             path-not-exist/
           if-no-files-found: ignore
+
+      - name: Has this changed since main branch? 1
+        if:  always()
+        run: |
+          if git diff main...head --unified=0 -- .github/workflows ; then
+            echo "Resulting Profile: ${MAVEN_PROFILE}"
+          fi
+
+      - name: Has this changed since main branch? 2
+        if:  always()
+        run: |
+          if git diff main...${{ github.sha }} --unified=0 -- .github/workflows ; then
+            echo "Resulting Profile: ${MAVEN_PROFILE}"
+          fi
