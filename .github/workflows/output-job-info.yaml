@@ -106,7 +106,9 @@ jobs:
           echo "Resulting Profile: ${MAVEN_PROFILE}"
 
       - uses: actions/upload-artifact@v2
+
         with:
           name: no-files
           path: |
             path-not-exist/
+          if-no-files-found: ignore
