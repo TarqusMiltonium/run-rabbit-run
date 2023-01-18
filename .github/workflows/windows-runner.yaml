@@ -1,0 +1,27 @@
+name: GitHub Actions Windows Environment Output
+on:
+  push:
+
+jobs:
+  job-number-two:
+    name: Output some GitHubActions Variables for Windows
+    runs-on: windows-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    env:
+      IS_DEFAULT_BRANCH: ${{ format('refs/heads/{0}', github.event.repository.default_branch) == github.ref }}
+
+
+    steps:
+      - name: Show PowerShell Process Info
+        run: Get-PSHostProcessInfo
+
+      - name: Show PowerShell Version Info
+        run: $PSVersionTable
+
+      - name: Put PowerShell Version Info into Job Summary
+        run: $PSVersionTable | Out-File -Path $Env:GITHUB_STEP_SUMMARY
+
